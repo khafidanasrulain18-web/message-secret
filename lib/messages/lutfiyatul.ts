@@ -110,7 +110,7 @@ const lutfiyatul: MessageConfig = {
       },
     ],
     signature: { line: "Selalu dan selamanya milikmu,", name: "Khafid ." },
-  }
+  },
 
   photoSection: {
     title: "Mesin Waktu Kita",
