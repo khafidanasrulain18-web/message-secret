@@ -116,12 +116,12 @@ const lutfiyatul: MessageConfig = {
     title: "Mesin Waktu Kita",
     subtitle: "Beberapa serpihan momen yang berhasil dibekukan oleh waktu. Coba lihat senyummu di sana, itulah alasan mengapa aku jatuh cinta setiap hari.",
     items: [
-      { src: "/messages/lutfiyatul/photos/1.jpg", caption: "Awal dari segalanya", rotate: -3 },
-      { src: "/messages/lutfiyatul/photos/2.jpg", caption: "Tawa yang menyembuhkanku", rotate: 2.5 },
-      { src: "/messages/lutfiyatul/photos/3.jpg", caption: "Kita dan waktu yang melambat", rotate: -1.5 },
-      { src: "/messages/lutfiyatul/photos/4.jpg", caption: "Jejak langkah bersama", rotate: 3.2 },
-      { src: "/messages/lutfiyatul/photos/5.jpg", caption: "Saksi bisu cerita kita", rotate: -2.2 },
-      { src: "/messages/lutfiyatul/photos/6.jpg", caption: "Untuk hari esok dan seterusnya", rotate: 1.6 },
+      { src: "/messages/lutfiyatul/photos/1.WebP", caption: "Awal dari segalanya", rotate: -3 },
+      { src: "/messages/lutfiyatul/photos/2.WebP", caption: "Tawa yang menyembuhkanku", rotate: 2.5 },
+      { src: "/messages/lutfiyatul/photos/3.WebP", caption: "Kita dan waktu yang melambat", rotate: -1.5 },
+      { src: "/messages/lutfiyatul/photos/4.WebP", caption: "Jejak langkah bersama", rotate: 3.2 },
+      { src: "/messages/lutfiyatul/photos/5.WebP", caption: "Saksi bisu cerita kita", rotate: -2.2 },
+      { src: "/messages/lutfiyatul/photos/6.WebP", caption: "Untuk hari esok dan seterusnya", rotate: 1.6 },
     ],
   },
 
