@@ -1,0 +1,148 @@
+/* ============ SUASANA LILIN ============ */
+@keyframes flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1) rotate(-1deg); opacity: .95; }
+  30%      { transform: scaleY(1.1) scaleX(.94) rotate(1.5deg); opacity: 1; }
+  55%      { transform: scaleY(.9) scaleX(1.05) rotate(-2deg); opacity: .88; }
+  80%      { transform: scaleY(1.05) scaleX(.97) rotate(1deg); opacity: 1; }
+}
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+  15%  { opacity: .55; }
+  85%  { opacity: .25; }
+  100% { transform: translate3d(var(--dx, 10px), -70px, 0); opacity: 0; }
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes riseIn {
+  from { transform: translateY(14px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ============ LANGIT MALAM ============ */
+@keyframes twinkle {
+  0%, 100% { opacity: .18; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.7); }
+}
+@keyframes haloPulse {
+  0%, 100% { opacity: .55; transform: scale(1); }
+  50%      { opacity: .95; transform: scale(1.08); }
+}
+@keyframes shoot {
+  0%   { opacity: 0; transform: translate3d(0,0,0) rotate(35deg); }
+  6%   { opacity: 1; }
+  18%  { opacity: 1; }
+  24%  { opacity: 0; transform: translate3d(45vw, 45vh, 0) rotate(35deg); }
+  100% { opacity: 0; transform: translate3d(45vw, 45vh, 0) rotate(35deg); }
+}
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes ringSpin {
+  from { transform: rotate(-18deg) rotateZ(0deg); }
+  to   { transform: rotate(-18deg) rotateZ(360deg); }
+}
+/* ============ PERFORMANCE: GPU LAYER PROMOTION ============ */
+.flame,
+.mote,
+.star,
+.moon-halo,
+.moon-ball,
+.shooting-star,
+.planet-ring,
+.planet-tilt,
+.note-card {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Isolasi paint supaya animasi bintang/mote tidak memicu repaint
+   elemen statis (blur blob, gradient) di sekitarnya */
+.star-field,
+.mote-field {
+  contain: layout style paint;
+}
+
+.flame   { animation: flicker 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.mote    { animation: drift var(--dur, 10s) linear var(--delay, 0s) infinite; }
+.rise-in { animation: riseIn .9s cubic-bezier(.22,1,.36,1) both; }
+
+.star {
+  position: absolute;
+  border-radius: 9999px;
+  background: #fbf4e3;
+  /* satu shadow saja (bukan dua) — lebih ringan dirender x80 elemen */
+  box-shadow: 0 0 8px rgba(199,154,75,.55);
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.moon-halo {
+  position: absolute;
+  inset: -50%;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(243,230,200,.35), rgba(199,154,75,.12) 45%, transparent 70%);
+  animation: haloPulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.moon-ball {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #fbf4e3 5%, #ecdcae 45%, #b89f68 90%);
+  box-shadow:
+    inset -10px -12px 22px rgba(70,50,10,.45),
+    inset 8px 8px 16px rgba(255,255,255,.45),
+    0 0 40px rgba(243,230,200,.55),
+    0 0 90px rgba(199,154,75,.35);
+}
+
+.shooting-star {
+  position: absolute;
+  width: 140px;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(243,230,200,0), rgba(243,230,200,.95), rgba(199,154,75,.4));
+  filter: drop-shadow(0 0 4px rgba(243,230,200,.7));
+  transform-origin: left center;
+  animation: shoot 14s ease-in-out infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Static heavy-blur blobs — promosikan jadi layer sendiri sekali saja,
+   supaya tidak ikut ter-repaint tiap kali sibling-nya beranimasi */
+.ambient-glow {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Flap amplop: transisi 3D butuh perspective + layer sendiri agar mulus */
+.envelope-flap {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.note-card { position: relative; }
+.note-card:hover,
+.note-card:focus-visible {
+  transform: translateY(-8px) scale(1.04) rotate(0deg) translateZ(0) !important;
+}
+.note-card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(199,154,75,.85), rgba(243,230,200,.5));
+  filter: blur(10px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.note-card:hover::after,
+.note-card:focus-visible::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flame, .mote, .rise-in, .star, .moon-halo,
+  .shooting-star, .planet-ring, .planet-tilt { animation: none !important; }
+}
